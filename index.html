@@ -132,41 +132,235 @@
     .btn-primary { background: var(--accent); color: #000; }
     .btn-secondary { background: var(--raised); color: var(--text); border: 1px solid var(--border); }
 
-    /* ── Terminal preview ── */
-    .terminal-card {
+    /* ── App preview (Claude Code session chrome) ── */
+    .app-preview {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
+      border-radius: 14px;
       overflow: hidden;
       margin: 56px 0;
-      font-family: "SF Mono", "JetBrains Mono", "Fira Code", monospace;
-      font-size: 13px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 14px;
+      max-width: 680px;
+      margin-left: auto;
+      margin-right: auto;
     }
-    .terminal-bar {
-      background: var(--raised);
+    /* iOS-style nav bar */
+    .app-navbar {
+      background: rgba(15,15,18,0.92);
+      backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
       padding: 10px 16px;
       display: flex;
       align-items: center;
+      gap: 10px;
+    }
+    .app-navbar .nav-back { color: var(--accent); font-size: 15px; cursor: default; }
+    .app-navbar .nav-title { flex: 1; text-align: center; font-size: 13px; font-weight: 600; color: var(--text); }
+    .app-navbar .nav-status {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 11px; font-family: "SF Mono", monospace; color: var(--faint);
+    }
+    .pulse { width: 6px; height: 6px; border-radius: 50%; background: var(--status-online); animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+    /* cwd header bar — matches SessionHeaderBar in app */
+    .app-cwd-bar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .app-cwd-bar .cwd {
+      font-size: 11px;
+      font-family: "SF Mono", "JetBrains Mono", monospace;
+      color: var(--muted);
+    }
+    .app-cwd-bar .running-badge {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 11px; font-family: "SF Mono", monospace; color: #f59e0b;
+    }
+    /* Message log */
+    .app-messages { padding: 12px 0; }
+    .msg-turn { padding: 8px 14px; }
+    .msg-user {
+      display: flex; justify-content: flex-end;
+    }
+    .msg-user .bubble {
+      background: var(--accent);
+      color: #000;
+      border-radius: 18px 18px 4px 18px;
+      padding: 9px 14px;
+      font-size: 14px;
+      max-width: 72%;
+      line-height: 1.4;
+    }
+    .msg-assistant { display: flex; flex-direction: column; gap: 6px; }
+    .msg-assistant .prose {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.55;
+      padding: 0 2px;
+    }
+    /* Tool step chip — matches ToolStepView in app */
+    .tool-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--raised);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 11px;
+      font-family: "SF Mono", monospace;
+      color: var(--muted);
+      margin: 2px 0;
+    }
+    .tool-chip .tool-icon { color: var(--claude); font-size: 10px; }
+    .tool-chip .tool-name { color: var(--text); font-weight: 600; }
+    .tool-chip .tool-arg  { color: var(--faint); }
+    /* Divider between turns */
+    .turn-divider { border: none; border-top: 1px solid rgba(42,42,48,0.5); margin: 2px 14px; }
+    /* Input bar — matches TerminalInputBar in app */
+    .app-input-bar {
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
       gap: 8px;
     }
+    .app-input-bar .prompt {
+      font-size: 16px; font-weight: 800; color: var(--accent);
+      font-family: "SF Mono", monospace;
+      flex-shrink: 0;
+    }
+    .app-input-bar .input-field {
+      flex: 1; font-size: 14px; color: var(--muted);
+      font-style: italic;
+    }
+    .app-input-bar .send-btn {
+      width: 28px; height: 28px; border-radius: 7px;
+      background: var(--accent); display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .app-input-bar .send-btn svg { width: 14px; height: 14px; }
+
+    /* legacy dot colours (kept for any other uses) */
     .dot { width: 12px; height: 12px; border-radius: 50%; }
     .dot-r { background: #ff5f57; }
     .dot-y { background: #febc2e; }
     .dot-g { background: #28c840; }
-    .terminal-title {
-      flex: 1;
-      text-align: center;
-      font-size: 12px;
-      color: var(--faint);
-    }
-    .terminal-body { padding: 20px; line-height: 1.7; }
     .t-dim  { color: var(--faint); }
     .t-acc  { color: var(--accent); }
     .t-ok   { color: var(--term); }
     .t-tool { color: var(--claude); }
     .t-kiro { color: var(--kiro); }
     .t-text { color: var(--text); }
+
+    /* ── Phone carousel ── */
+    .phone-section {
+      padding: 64px 0 32px;
+      overflow: hidden;
+    }
+    .phone-grid {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 12px;
+      padding: 24px 0 40px;
+    }
+    .phone-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      transition: transform 0.3s;
+    }
+    .phone-frame {
+      position: relative;
+      width: 210px;
+      border-radius: 38px;
+      border: 1.5px solid rgba(255,255,255,0.10);
+      box-shadow: 0 32px 80px rgba(0,0,0,0.70), 0 0 0 10px rgba(0,0,0,0.25);
+      overflow: hidden;
+      background: #000;
+    }
+    .phone-frame img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .dynamic-island {
+      position: absolute;
+      top: 11px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 29%;
+      height: 10px;
+      background: #060608;
+      border-radius: 999px;
+      z-index: 2;
+    }
+    .phone-label {
+      font-size: 12px;
+      color: var(--faint);
+      text-align: center;
+    }
+    /* Fan effect */
+    .phone-wrapper:nth-child(1) { transform: rotate(-4deg) translateY(32px); opacity: 0.7; }
+    .phone-wrapper:nth-child(2) { transform: rotate(-2deg) translateY(16px); }
+    .phone-wrapper:nth-child(3) .phone-frame {
+      width: 240px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.70), 0 0 0 10px rgba(0,0,0,0.25), 0 0 80px rgba(107,127,255,0.28);
+    }
+    .phone-wrapper:nth-child(4) { transform: rotate(2deg)  translateY(16px); }
+    .phone-wrapper:nth-child(5) { transform: rotate(4deg)  translateY(32px); opacity: 0.7; }
+
+    /* Dot indicator */
+    .scroll-dots {
+      display: none;
+      justify-content: center;
+      gap: 6px;
+      padding-bottom: 24px;
+    }
+    .scroll-dots span {
+      display: block;
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--faint);
+      transition: width 0.25s, background 0.25s;
+    }
+    .scroll-dots span.active {
+      width: 22px;
+      background: var(--accent);
+    }
+
+    /* Mobile: collapse fan into swipe carousel */
+    @media (max-width: 640px) {
+      .phone-grid {
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding: 24px 20px;
+        margin: 0 -20px;
+        justify-content: flex-start;
+        align-items: center;
+      }
+      .phone-grid::-webkit-scrollbar { display: none; }
+      .phone-wrapper {
+        scroll-snap-align: center;
+        transform: none !important;
+        opacity: 1 !important;
+        flex-shrink: 0;
+      }
+      .phone-frame { width: 200px; }
+      .phone-wrapper:nth-child(3) .phone-frame { width: 200px; box-shadow: 0 32px 80px rgba(0,0,0,0.70), 0 0 0 10px rgba(0,0,0,0.25); }
+      .scroll-dots { display: flex; }
+    }
 
     /* ── Features ── */
     .features {
@@ -313,23 +507,110 @@
       </div>
     </section>
 
-    <!-- Terminal preview -->
-    <div class="container">
-      <div class="terminal-card">
-        <div class="terminal-bar">
-          <span class="dot dot-r"></span>
-          <span class="dot dot-y"></span>
-          <span class="dot dot-g"></span>
-          <span class="terminal-title">claude-code · my-project</span>
+    <!-- Phone carousel -->
+    <section class="phone-section">
+      <div class="phone-grid" id="phoneGrid">
+        <div class="phone-wrapper">
+          <div class="phone-frame">
+            <div class="dynamic-island"></div>
+            <img src="screen-settings.png" alt="Settings" loading="lazy">
+          </div>
+          <span class="phone-label">Settings</span>
         </div>
-        <div class="terminal-body">
-          <div><span class="t-dim">system </span><span class="t-acc">›</span> <span class="t-ok">Session connected</span></div>
-          <div><span class="t-dim">user   </span><span class="t-acc">›</span> <span class="t-text">add dark mode support to the settings view</span></div>
-          <div><span class="t-dim">claude </span><span class="t-acc">›</span> <span class="t-text">I'll add dark mode support. Let me read the current settings view first.</span></div>
-          <div><span class="t-tool">       ⎔ Read</span> <span class="t-dim">SettingsView.swift</span></div>
-          <div><span class="t-tool">       ⎔ Edit</span> <span class="t-dim">SettingsView.swift</span></div>
-          <div><span class="t-dim">claude </span><span class="t-acc">›</span> <span class="t-text">Done. Added </span><span class="t-ok">@Environment(\.colorScheme)</span><span class="t-text"> and conditional styling.</span></div>
-          <div style="margin-top:8px"><span class="t-dim">≡ </span><span class="t-ok">Session running</span><span class="t-dim"> · 10.100.0.1 · WireGuard</span></div>
+        <div class="phone-wrapper">
+          <div class="phone-frame">
+            <div class="dynamic-island"></div>
+            <img src="screen-sessions.png" alt="Sessions" loading="lazy">
+          </div>
+          <span class="phone-label">Sessions</span>
+        </div>
+        <div class="phone-wrapper">
+          <div class="phone-frame">
+            <div class="dynamic-island"></div>
+            <img src="screen-new-session.png" alt="New Session" loading="lazy">
+          </div>
+          <span class="phone-label">New Session</span>
+        </div>
+        <div class="phone-wrapper">
+          <div class="phone-frame">
+            <div class="dynamic-island"></div>
+            <img src="screen-welcome.png" alt="Welcome" loading="lazy">
+          </div>
+          <span class="phone-label">Welcome</span>
+        </div>
+        <div class="phone-wrapper">
+          <div class="phone-frame">
+            <div class="dynamic-island"></div>
+            <img src="screen-sessions.png" alt="Sessions" loading="lazy">
+          </div>
+          <span class="phone-label">Sessions</span>
+        </div>
+      </div>
+      <div class="scroll-dots" aria-hidden="true">
+        <span class="active"></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </section>
+
+    <!-- App preview: authentic Claude Code session chrome -->
+    <div class="container">
+      <div class="app-preview">
+        <!-- iOS nav bar -->
+        <div class="app-navbar">
+          <span class="nav-back">‹ Sessions</span>
+          <span class="nav-title"></span>
+          <span class="nav-status">
+            <span class="pulse"></span>running
+          </span>
+        </div>
+        <!-- cwd header bar -->
+        <div class="app-cwd-bar">
+          <span class="cwd">~/projects/myapp</span>
+          <span class="running-badge">
+            <span class="pulse"></span>running
+          </span>
+        </div>
+        <!-- Message log -->
+        <div class="app-messages">
+          <!-- User turn -->
+          <div class="msg-turn">
+            <div class="msg-user">
+              <div class="bubble">Fix the authentication bug where tokens expire too early</div>
+            </div>
+          </div>
+          <hr class="turn-divider">
+          <!-- Assistant turn -->
+          <div class="msg-turn">
+            <div class="msg-assistant">
+              <div class="prose">I'll investigate the token expiration issue. Let me read the authentication code first.</div>
+              <div>
+                <span class="tool-chip">
+                  <span class="tool-icon">⎔</span>
+                  <span class="tool-name">Read</span>
+                  <span class="tool-arg">src/auth/tokens.js</span>
+                </span>
+              </div>
+              <div>
+                <span class="tool-chip">
+                  <span class="tool-icon">⎔</span>
+                  <span class="tool-name">Edit</span>
+                  <span class="tool-arg">src/auth/tokens.js</span>
+                </span>
+              </div>
+              <div class="prose">Found it — <code style="background:var(--raised);padding:1px 5px;border-radius:4px;font-size:12px;color:var(--term)">TOKEN_TTL</code> was set to <code style="background:var(--raised);padding:1px 5px;border-radius:4px;font-size:12px;color:var(--term)">15 * 60</code> (15 min). Changed to <code style="background:var(--raised);padding:1px 5px;border-radius:4px;font-size:12px;color:var(--term)">24 * 60 * 60</code> (24 h). Tests pass.</div>
+            </div>
+          </div>
+        </div>
+        <!-- Input bar -->
+        <div class="app-input-bar">
+          <span class="prompt">&gt;</span>
+          <span class="input-field">message claude…</span>
+          <span class="send-btn">
+            <svg viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7l6-6 6 6" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
         </div>
       </div>
     </div>
@@ -470,5 +751,39 @@
     </div>
   </footer>
 
+  <script>
+    (function() {
+      var grid   = document.getElementById('phoneGrid');
+      var dots   = Array.from(document.querySelectorAll('.scroll-dots span'));
+      var phones = Array.from(grid.querySelectorAll('.phone-wrapper'));
+      if (!grid || !dots.length) return;
+      grid.addEventListener('scroll', function() {
+        var mid = grid.scrollLeft + grid.offsetWidth / 2;
+        var closest = 0, minDist = Infinity;
+        phones.forEach(function(p, i) {
+          var dist = Math.abs((p.offsetLeft + p.offsetWidth / 2) - mid);
+          if (dist < minDist) { minDist = dist; closest = i; }
+        });
+        dots.forEach(function(d, i) { d.classList.toggle('active', i === closest); });
+      }, { passive: true });
+    })();
+  </script>
+  <script>
+    (function() {
+      var grid   = document.getElementById('phoneGrid');
+      var dots   = Array.from(document.querySelectorAll('.scroll-dots span'));
+      var phones = Array.from(grid ? grid.querySelectorAll('.phone-wrapper') : []);
+      if (!grid || !dots.length) return;
+      grid.addEventListener('scroll', function() {
+        var mid = grid.scrollLeft + grid.offsetWidth / 2;
+        var closest = 0, minDist = Infinity;
+        phones.forEach(function(p, i) {
+          var dist = Math.abs((p.offsetLeft + p.offsetWidth / 2) - mid);
+          if (dist < minDist) { minDist = dist; closest = i; }
+        });
+        dots.forEach(function(d, i) { d.classList.toggle('active', i === closest); });
+      }, { passive: true });
+    })();
+  </script>
 </body>
 </html>
