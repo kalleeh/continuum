@@ -308,15 +308,17 @@
       color: var(--faint);
       text-align: center;
     }
-    /* Fan effect */
-    .phone-wrapper:nth-child(1) { transform: rotate(-4deg) translateY(32px); opacity: 0.7; }
-    .phone-wrapper:nth-child(2) { transform: rotate(-2deg) translateY(16px); }
-    .phone-wrapper:nth-child(3) .phone-frame {
-      width: 240px;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.70), 0 0 0 10px rgba(0,0,0,0.25), 0 0 80px rgba(107,127,255,0.28);
+    /* Fan effect — 4 phones */
+    .phone-wrapper:nth-child(1) { transform: rotate(-4deg) translateY(28px); opacity: 0.65; }
+    .phone-wrapper:nth-child(2) .phone-frame {
+      width: 230px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.70), 0 0 0 10px rgba(0,0,0,0.25), 0 0 70px rgba(107,127,255,0.22);
     }
-    .phone-wrapper:nth-child(4) { transform: rotate(2deg)  translateY(16px); }
-    .phone-wrapper:nth-child(5) { transform: rotate(4deg)  translateY(32px); opacity: 0.7; }
+    .phone-wrapper:nth-child(3) .phone-frame {
+      width: 230px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.70), 0 0 0 10px rgba(0,0,0,0.25), 0 0 70px rgba(107,127,255,0.22);
+    }
+    .phone-wrapper:nth-child(4) { transform: rotate(4deg) translateY(28px); opacity: 0.65; }
 
     /* Dot indicator */
     .scroll-dots {
@@ -358,6 +360,7 @@
         flex-shrink: 0;
       }
       .phone-frame { width: 200px; }
+      .phone-wrapper:nth-child(2) .phone-frame,
       .phone-wrapper:nth-child(3) .phone-frame { width: 200px; box-shadow: 0 32px 80px rgba(0,0,0,0.70), 0 0 0 10px rgba(0,0,0,0.25); }
       .scroll-dots { display: flex; }
     }
@@ -513,9 +516,9 @@
         <div class="phone-wrapper">
           <div class="phone-frame">
             <div class="dynamic-island"></div>
-            <img src="screen-settings.png" alt="Settings" loading="lazy">
+            <img src="screen-welcome.png" alt="Welcome" loading="lazy">
           </div>
-          <span class="phone-label">Settings</span>
+          <span class="phone-label">Welcome</span>
         </div>
         <div class="phone-wrapper">
           <div class="phone-frame">
@@ -534,21 +537,13 @@
         <div class="phone-wrapper">
           <div class="phone-frame">
             <div class="dynamic-island"></div>
-            <img src="screen-welcome.png" alt="Welcome" loading="lazy">
+            <img src="screen-settings.png" alt="Settings" loading="lazy">
           </div>
-          <span class="phone-label">Welcome</span>
-        </div>
-        <div class="phone-wrapper">
-          <div class="phone-frame">
-            <div class="dynamic-island"></div>
-            <img src="screen-sessions.png" alt="Sessions" loading="lazy">
-          </div>
-          <span class="phone-label">Sessions</span>
+          <span class="phone-label">Settings</span>
         </div>
       </div>
       <div class="scroll-dots" aria-hidden="true">
         <span class="active"></span>
-        <span></span>
         <span></span>
         <span></span>
         <span></span>
