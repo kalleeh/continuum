@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Getting Started — Continuum</title>
+  <meta name="description" content="Set up Continuum in 5 minutes. Deploy your server, scan the QR code, and start coding from your iPhone.">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    .setup-hero {
+      padding: 56px 0 40px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .setup-hero h1 {
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 12px;
+    }
+    .setup-hero p {
+      color: var(--muted);
+      font-size: 17px;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .prereqs {
+      padding: 40px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .prereqs h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .prereq-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .prereq-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+    .prereq-list .check {
+      color: var(--accent);
+      font-size: 16px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .paths {
+      padding: 40px 0;
+    }
+    .paths h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .paths > p {
+      color: var(--muted);
+      font-size: 15px;
+      margin-bottom: 28px;
+    }
+
+    .path-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .path-card h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .path-card .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    .path-card ol {
+      list-style: none;
+      counter-reset: step;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .path-card ol li {
+      counter-increment: step;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .path-card ol li::before {
+      content: counter(step);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(107, 127, 255, 0.12);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    code {
+      background: var(--raised);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2px 7px;
+      font-size: 13px;
+      font-family: "SF Mono", "JetBrains Mono", monospace;
+      color: var(--accent);
+    }
+    pre {
+      background: var(--raised);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      overflow-x: auto;
+      margin: 10px 0;
+      font-size: 13px;
+      font-family: "SF Mono", "JetBrains Mono", monospace;
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    .after-scan {
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+    }
+    .after-scan h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .after-scan p {
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .troubleshoot {
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+    }
+    .troubleshoot h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .faq {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .faq dt {
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .faq dd {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.55;
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="container">
+      <a href="index.html" class="logo">Continuum<span>.</span></a>
+      <div style="display:flex;gap:16px">
+        <a href="setup.html">Setup</a>
+        <a href="privacy.html">Privacy</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+
+      <div class="setup-hero">
+        <h1>Getting Started</h1>
+        <p>Deploy your server, scan the QR code, start coding. The whole process takes about 5 minutes.</p>
+      </div>
+
+      <section class="prereqs">
+        <h2>What you need</h2>
+        <ul class="prereq-list">
+          <li><span class="check">✓</span> <span><strong>Continuum</strong> installed on your iPhone or iPad</span></li>
+          <li><span class="check">✓</span> <span>A <strong>Mac or Linux machine</strong> to run the deploy script (your laptop is fine)</span></li>
+          <li><span class="check">✓</span> <span><strong>gum</strong> — a terminal UI tool used by the deploy script (<code>brew install gum</code>)</span></li>
+          <li><span class="check">✓</span> <span><strong>WireGuard tools</strong> — for key generation (<code>brew install wireguard-tools qrencode</code>)</span></li>
+          <li><span class="check">✓</span> <span>For cloud deploys: the provider's CLI (<code>aws</code>, <code>doctl</code>, or <code>hcloud</code>)</span></li>
+        </ul>
+      </section>
+
+      <section class="paths">
+        <h2>Choose your setup path</h2>
+        <p>Continuum works with any Linux server you can SSH into. Pick the path that fits your situation.</p>
+
+        <div class="path-card">
+          <h3>☁️ New cloud server (recommended)</h3>
+          <p class="subtitle">Spin up a fresh VM on AWS Lightsail, EC2, DigitalOcean, or Hetzner. The script handles everything.</p>
+          <ol>
+            <li><span>Clone the server repo and run the deploy script:
+              <pre>git clone https://github.com/kalleeh/continuum-ios.git
+cd continuum-ios/server
+./deploy.sh create lightsail</pre>
+              The script will ask you to pick a region, instance size, and number of devices. Replace <code>lightsail</code> with <code>ec2</code>, <code>do</code>, or <code>hetzner</code> for other providers.</span></li>
+            <li><span>Wait ~3 minutes for the VM to boot and configure itself. The script will show progress.</span></li>
+            <li><span>When it's done, a <strong>QR code</strong> appears in your terminal. This contains your WireGuard config and auth token.</span></li>
+            <li><span>Open <strong>Continuum</strong> on your iPhone → tap <strong>Scan QR Code</strong> → point at the terminal. Done.</span></li>
+          </ol>
+        </div>
+
+        <div class="path-card">
+          <h3>🖥️ Existing server (any Linux VPS)</h3>
+          <p class="subtitle">Already have a server running? The script will SSH in and set everything up.</p>
+          <ol>
+            <li><span>Clone the repo and run:
+              <pre>git clone https://github.com/kalleeh/continuum-ios.git
+cd continuum-ios/server
+./deploy.sh create any</pre></span></li>
+            <li><span>The script will ask for your server's IP and SSH key. It installs WireGuard, ttyd, and the Continuum relay over SSH.</span></li>
+            <li><span>Scan the QR code that appears when it finishes.</span></li>
+          </ol>
+        </div>
+
+        <div class="path-card">
+          <h3>💻 Your own Mac or Linux machine</h3>
+          <p class="subtitle">Run everything locally — great for trying it out or if your dev machine is always on.</p>
+          <ol>
+            <li><span>Clone the repo and run:
+              <pre>git clone https://github.com/kalleeh/continuum-ios.git
+cd continuum-ios/server
+./deploy.sh create local</pre></span></li>
+            <li><span>The script installs WireGuard and the relay services on your machine.</span></li>
+            <li><span>Scan the QR code. Your phone connects to your machine over WireGuard.</span></li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="after-scan">
+        <h2>After scanning the QR code</h2>
+        <p>The app imports your WireGuard config and auth token automatically. The VPN connects, and you'll see the session list within a few seconds.</p>
+        <p>From there:</p>
+        <ul class="prereq-list">
+          <li><span class="check">+</span> <span>Tap <strong>New Session</strong> to create a Claude Code, Kiro, Ollama, or terminal session</span></li>
+          <li><span class="check">+</span> <span>Sessions run on your server inside tmux — they keep running even when you close the app</span></li>
+          <li><span class="check">+</span> <span>Come back anytime and pick up exactly where you left off</span></li>
+        </ul>
+      </section>
+
+      <section class="troubleshoot">
+        <h2>Troubleshooting</h2>
+        <dl class="faq">
+          <dt>The QR code won't scan</dt>
+          <dd>Make sure your terminal window is large enough for the QR code to render clearly. Try zooming in or increasing your terminal font size. You can also re-display the QR code with <code>./deploy.sh status</code>.</dd>
+
+          <dt>VPN connects but no sessions appear</dt>
+          <dd>The relay service may still be starting. Wait 30 seconds and pull down to refresh. Check that the relay is running on your server: <code>systemctl status continuum-relay</code>.</dd>
+
+          <dt>"Connection failed" after scanning</dt>
+          <dd>Your phone needs to be on a network that can reach your server. If you're on the same local network as a <code>create local</code> setup, make sure your firewall allows UDP port 51820 (WireGuard).</dd>
+
+          <dt>I want to add another device</dt>
+          <dd>Run <code>./deploy.sh create</code> again with <code>--peers 2</code> (or however many devices you need). Each device gets its own QR code.</dd>
+
+          <dt>How do I update the server?</dt>
+          <dd>Run <code>./deploy.sh status</code> to check versions. The relay binary auto-updates, or you can re-run the deploy script.</dd>
+        </dl>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>© 2026 Continuum</p>
+      <div style="display:flex;gap:20px">
+        <a href="privacy.html">Privacy</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
