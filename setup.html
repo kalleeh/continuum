@@ -206,56 +206,28 @@
         <h2>What you need</h2>
         <ul class="prereq-list">
           <li><span class="check">✓</span> <span><strong>Continuum</strong> installed on your iPhone or iPad</span></li>
-          <li><span class="check">✓</span> <span>A <strong>Mac or Linux machine</strong> to run the deploy script (your laptop is fine)</span></li>
-          <li><span class="check">✓</span> <span><strong>gum</strong> — a terminal UI tool used by the deploy script (<code>brew install gum</code>)</span></li>
-          <li><span class="check">✓</span> <span><strong>WireGuard tools</strong> — for key generation (<code>brew install wireguard-tools qrencode</code>)</span></li>
-          <li><span class="check">✓</span> <span>For cloud deploys: the provider's CLI (<code>aws</code>, <code>doctl</code>, or <code>hcloud</code>)</span></li>
+          <li><span class="check">✓</span> <span>A <strong>Mac or Linux machine</strong> to run the installer (your laptop is fine)</span></li>
+          <li><span class="check">✓</span> <span><strong>gum</strong> — the interactive UI used by deploy.sh (<code>brew install gum</code>)</span></li>
+          <li><span class="check">✓</span> <span>For cloud deploys: the provider's CLI (<code>aws</code>, <code>doctl</code>, or <code>hcloud</code>) authenticated to your account</span></li>
         </ul>
+        <p class="subtitle">The installer itself only needs <code>bash</code> and <code>curl</code>, which both macOS and Linux already have.</p>
       </section>
 
       <section class="paths">
-        <h2>Choose your setup path</h2>
-        <p>Continuum works with any Linux server you can SSH into. Pick the path that fits your situation.</p>
+        <h2>Install the server</h2>
+        <p>One command. The installer downloads <code>deploy.sh</code> from the latest signed release, verifies its checksum, then runs it. <code>deploy.sh</code> walks you through provider, region, and instance size interactively (powered by <a href="https://github.com/charmbracelet/gum">gum</a>).</p>
 
         <div class="path-card">
-          <h3>☁️ New cloud server (recommended)</h3>
-          <p class="subtitle">Spin up a fresh VM on AWS Lightsail, EC2, DigitalOcean, or Hetzner. The script handles everything.</p>
+          <h3>🚀 One-line install</h3>
+          <p class="subtitle">Run this on your laptop. It works for new cloud VMs (Lightsail / EC2 / DigitalOcean / Hetzner), an existing Linux VPS you can SSH into, or your local Mac/Linux machine. The installer asks which path to take.</p>
+          <pre>/bin/bash -c "$(curl -fsSL https://kalleeh.github.io/continuum/install.sh)"</pre>
           <ol>
-            <li><span>Clone the server repo and run the deploy script:
-              <pre>git clone https://github.com/kalleeh/continuum-ios.git
-cd continuum-ios/server
-./deploy.sh create lightsail</pre>
-              The script will ask you to pick a region, instance size, and number of devices. Replace <code>lightsail</code> with <code>ec2</code>, <code>do</code>, or <code>hetzner</code> for other providers.</span></li>
-            <li><span>Wait ~3 minutes for the VM to boot and configure itself. The script will show progress.</span></li>
-            <li><span>When it's done, a <strong>QR code</strong> appears in your terminal. This contains your WireGuard config and auth token.</span></li>
-            <li><span>Open <strong>Continuum</strong> on your iPhone → tap <strong>Scan QR Code</strong> → point at the terminal. Done.</span></li>
+            <li><span>The installer fetches the latest <code>deploy.sh</code> + <code>cloud-init.yaml</code> from <a href="https://github.com/kalleeh/continuum-relay/releases/latest">github.com/kalleeh/continuum-relay/releases/latest</a> and verifies their sha256.</span></li>
+            <li><span><code>deploy.sh</code> asks you to pick a target (cloud provider, existing VPS, or local), then provisions everything. Wait ~3 minutes.</span></li>
+            <li><span>A <strong>QR code</strong> appears in your terminal containing the WireGuard config + auth token for the first device.</span></li>
+            <li><span>Open <strong>Continuum</strong> on your iPhone → tap <strong>Set Up My Server</strong> → point the camera at the terminal. Done.</span></li>
           </ol>
-        </div>
-
-        <div class="path-card">
-          <h3>🖥️ Existing server (any Linux VPS)</h3>
-          <p class="subtitle">Already have a server running? The script will SSH in and set everything up.</p>
-          <ol>
-            <li><span>Clone the repo and run:
-              <pre>git clone https://github.com/kalleeh/continuum-ios.git
-cd continuum-ios/server
-./deploy.sh create any</pre></span></li>
-            <li><span>The script will ask for your server's IP and SSH key. It installs WireGuard, ttyd, and the Continuum relay over SSH.</span></li>
-            <li><span>Scan the QR code that appears when it finishes.</span></li>
-          </ol>
-        </div>
-
-        <div class="path-card">
-          <h3>💻 Your own Mac or Linux machine</h3>
-          <p class="subtitle">Run everything locally — great for trying it out or if your dev machine is always on.</p>
-          <ol>
-            <li><span>Clone the repo and run:
-              <pre>git clone https://github.com/kalleeh/continuum-ios.git
-cd continuum-ios/server
-./deploy.sh create local</pre></span></li>
-            <li><span>The script installs WireGuard and the relay services on your machine.</span></li>
-            <li><span>Scan the QR code. Your phone connects to your machine over WireGuard.</span></li>
-          </ol>
+          <p class="subtitle" style="margin-top:1em">Want to inspect before running? <a href="https://kalleeh.github.io/continuum/install.sh">Read install.sh</a> (≈100 lines) or download <a href="https://github.com/kalleeh/continuum-relay/releases/latest/download/deploy.sh"><code>deploy.sh</code></a> directly from the release.</p>
         </div>
       </section>
 
@@ -280,13 +252,13 @@ cd continuum-ios/server
           <dd>The relay service may still be starting. Wait 30 seconds and pull down to refresh. Check that the relay is running on your server: <code>systemctl status continuum-relay</code>.</dd>
 
           <dt>"Connection failed" after scanning</dt>
-          <dd>Your phone needs to be on a network that can reach your server. If you're on the same local network as a <code>create local</code> setup, make sure your firewall allows UDP port 51820 (WireGuard).</dd>
+          <dd>Your phone needs to be on a network that can reach your server. If you're on the same local network as a local install, make sure your firewall allows UDP port 51820 (WireGuard).</dd>
 
           <dt>I want to add another device</dt>
-          <dd>Run <code>./deploy.sh create</code> again with <code>--peers 2</code> (or however many devices you need). Each device gets its own QR code.</dd>
+          <dd>SSH into the server and run <code>continuum-relay peers add <em>name</em></code>. The command prints a QR JSON payload — render it with <code>qrencode -t ANSIUTF8</code> in another terminal and scan with the iOS app. No re-deploy needed.</dd>
 
           <dt>How do I update the server?</dt>
-          <dd>Run <code>./deploy.sh status</code> to check versions. The relay binary auto-updates, or you can re-run the deploy script.</dd>
+          <dd>Re-run the one-line installer. It pulls the latest signed release, verifies the checksum, and re-runs <code>deploy.sh</code> — which is idempotent and only restarts services if the binary actually changed.</dd>
         </dl>
       </section>
 
