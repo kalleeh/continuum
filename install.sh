@@ -66,6 +66,11 @@ main() {
     require curl
     require bash
     require mktemp
+    # awk is used below to extract the expected sha256 from checksums.txt.
+    # macOS and the major Linuxes ship it; minimal Alpine and a few
+    # embedded distros don't, so check explicitly rather than failing
+    # confusingly later.
+    require awk
 
     step "Creating workspace"
     local tmp
