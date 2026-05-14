@@ -109,9 +109,11 @@ main() {
 
     step "Launching deploy.sh"
     cd "$tmp"
-    # `create` is the default first-time action. deploy.sh's interactive flow
-    # picks the cloud provider, region, instance size, etc.
-    exec ./deploy.sh create
+    # Run as a child process (not exec) so the EXIT trap fires when deploy.sh
+    # finishes and the temp dir gets cleaned up. signal forwarding still works:
+    # Ctrl-C reaches the foreground process group containing both bash and the
+    # child, so deploy.sh sees SIGINT either way.
+    ./deploy.sh create
 }
 
 main "$@"
