@@ -215,6 +215,21 @@
     }
     .app-input-bar .send-btn svg { width: 14px; height: 14px; }
 
+    /* Inline install command in the "How it works" step */
+    .install-cmd {
+      background: var(--raised);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin: 10px 0 0;
+      overflow-x: auto;
+      font-size: 12px;
+      font-family: "SF Mono", "JetBrains Mono", monospace;
+      line-height: 1.5;
+      color: var(--text);
+      white-space: pre;
+    }
+
     /* legacy dot colours (kept for any other uses) */
     .dot { width: 12px; height: 12px; border-radius: 50%; }
     .dot-r { background: #ff5f57; }
@@ -669,7 +684,9 @@
             <div class="step-num">1</div>
             <div class="step-body">
               <h3>Deploy your server</h3>
-              <p>Run <code style="color:var(--accent);font-size:12px">./deploy.sh create lightsail</code> to spin up a new VM on Lightsail, EC2, Hetzner, or DigitalOcean. Or use <code style="color:var(--accent);font-size:12px">create local</code> to run on your own Mac or Linux machine. <a href="setup.html" style="font-size:14px">Full setup guide →</a></p>
+              <p>One command on your laptop. The installer fetches the latest signed release, verifies its checksum, then walks you through provider, region, and instance size.</p>
+              <pre class="install-cmd">/bin/bash -c "$(curl -fsSL https://kalleeh.github.io/continuum/install.sh)"</pre>
+              <p style="margin-top:10px">Works for new cloud VMs (Lightsail, EC2, Hetzner, DigitalOcean), an existing Linux VPS, or your local Mac/Linux machine. <a href="setup.html" style="font-size:14px">Full setup guide →</a></p>
             </div>
           </div>
           <div class="step">
