@@ -240,15 +240,15 @@
         <ul class="prereq-list">
           <li><span class="check">✓</span> <span><strong>Continuum</strong> installed on your iPhone or iPad</span></li>
           <li><span class="check">✓</span> <span>A <strong>Mac or Linux machine</strong> to run the installer (your laptop is fine)</span></li>
-          <li><span class="check">✓</span> <span><strong>gum</strong> — the interactive UI used by deploy.sh (<a href="https://github.com/charmbracelet/gum#installation">install instructions</a>)</span></li>
-          <li><span class="check">✓</span> <span>For cloud deploys: the provider's CLI (<code>aws</code> for Lightsail or EC2, <code>doctl</code> for DigitalOcean, <code>hcloud</code> for Hetzner) authenticated to your account</span></li>
+          <li><span class="check">✓</span> <span><strong>gum</strong> — powers the interactive prompts during install (<a href="https://github.com/charmbracelet/gum#installation">install instructions</a>)</span></li>
+          <li><span class="check">✓</span> <span>For cloud targets: the provider's CLI (<code>aws</code> for Lightsail or EC2, <code>doctl</code> for DigitalOcean, <code>hcloud</code> for Hetzner) authenticated to your account</span></li>
         </ul>
         <p class="subtitle">The installer itself only needs <code>bash</code>, <code>curl</code>, and standard POSIX tools (<code>awk</code>, <code>mktemp</code>, <code>sha256sum</code> or <code>shasum</code>) — already present on macOS and any common Linux.</p>
       </section>
 
       <section class="paths">
         <h2>Install the server</h2>
-        <p>One command. The installer downloads <code>deploy.sh</code> from the latest <a href="https://github.com/kalleeh/continuum-relay/releases/latest">continuum-relay release</a>, verifies its sha256 against the release's <code>checksums.txt</code>, then runs it. <code>deploy.sh</code> walks you through provider, region, and instance size interactively (powered by <a href="https://github.com/charmbracelet/gum">gum</a>).</p>
+        <p>One command. The installer pulls the latest <a href="https://github.com/kalleeh/continuum-relay/releases/latest">continuum-relay release</a>, verifies its sha256, and walks you through provider, region, and instance size interactively.</p>
 
         <div class="path-card">
           <h3>🚀 One-line install</h3>
@@ -261,12 +261,11 @@
             </button>
           </div>
           <ol>
-            <li><span>The installer fetches <code>deploy.sh</code> + <code>cloud-init.yaml</code> from the latest release and checks their sha256 against <code>checksums.txt</code>.</span></li>
-            <li><span><code>deploy.sh</code> asks you to pick a target (cloud provider, existing VPS, or local), then provisions everything. Wait ~3 minutes.</span></li>
+            <li><span>The installer asks you to pick a target (cloud provider, existing VPS, or local), then provisions everything. Wait ~3 minutes.</span></li>
             <li><span>A <strong>QR code</strong> appears in your terminal containing the WireGuard config + auth token for the first device.</span></li>
             <li><span>Open <strong>Continuum</strong> on your iPhone → tap <strong>Set Up My Server</strong> → point the camera at the terminal. Done.</span></li>
           </ol>
-          <p class="subtitle" style="margin-top:1em">Want to inspect before running? <a href="https://kalleeh.github.io/continuum/install.sh">Read install.sh</a> or download <a href="https://github.com/kalleeh/continuum-relay/releases/latest/download/deploy.sh"><code>deploy.sh</code></a> directly from the release.</p>
+          <p class="subtitle" style="margin-top:1em">Want to inspect before running? <a href="https://kalleeh.github.io/continuum/install.sh">Read install.sh</a> — it's the small bootstrap that fetches the release.</p>
         </div>
       </section>
 
@@ -275,7 +274,7 @@
         <p>The app imports your WireGuard config and auth token automatically. The VPN connects, and you'll see the session list within a few seconds.</p>
         <p>From there:</p>
         <ul class="prereq-list">
-          <li><span class="check">+</span> <span>Tap <strong>New Session</strong> to create a Claude Code, Kiro, Ollama, or terminal session</span></li>
+          <li><span class="check">+</span> <span>Tap <strong>New Session</strong> to create a Claude Code, Kiro, or terminal session</span></li>
           <li><span class="check">+</span> <span>Sessions run on your server inside tmux — they keep running even when you close the app</span></li>
           <li><span class="check">+</span> <span>Come back anytime and pick up exactly where you left off</span></li>
         </ul>
@@ -285,7 +284,7 @@
         <h2>Troubleshooting</h2>
         <dl class="faq">
           <dt>The QR code won't scan</dt>
-          <dd>Make sure your terminal window is large enough for the QR code to render clearly. Try zooming in or increasing your terminal font size. You can also re-display the QR code with <code>./deploy.sh status</code>.</dd>
+          <dd>Make sure your terminal window is large enough for the QR code to render clearly — zoom in or increase your terminal font size. If you've already dismissed the terminal, mint a fresh one by SSH'ing to the server and running <code>continuum-relay peers add <em>name</em></code>.</dd>
 
           <dt>VPN connects but no sessions appear</dt>
           <dd>The relay service may still be starting. Wait 30 seconds and pull down to refresh. Check that the relay is running on your server: <code>systemctl status continuum-relay</code>.</dd>
@@ -297,7 +296,7 @@
           <dd>SSH into the server and run <code>continuum-relay peers add <em>name</em></code>. The command prints a QR JSON payload — render it with <code>qrencode -t ANSIUTF8</code> in another terminal and scan with the iOS app. No re-deploy needed.</dd>
 
           <dt>How do I update the server?</dt>
-          <dd>Re-run the one-line installer. It pulls the latest signed release, verifies the checksum, and re-runs <code>deploy.sh</code> — which is idempotent and only restarts services if the binary actually changed.</dd>
+          <dd>Re-run the one-line installer. It pulls the latest release, verifies the checksum, and is idempotent — services only restart if the relay binary actually changed.</dd>
         </dl>
       </section>
 
