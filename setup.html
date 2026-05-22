@@ -141,6 +141,39 @@
       color: var(--text);
     }
 
+    .copy-block {
+      position: relative;
+    }
+    .copy-block pre {
+      padding-right: 56px;
+    }
+    .copy-block .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+    .copy-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--muted);
+      cursor: pointer;
+      transition: color 0.15s, background 0.15s, border-color 0.15s;
+    }
+    .copy-btn:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+    .copy-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .copy-btn svg { width: 14px; height: 14px; }
+    .copy-btn .icon-check { display: none; }
+    .copy-btn.copied { color: var(--status-online); border-color: var(--status-online); }
+    .copy-btn.copied .icon-copy { display: none; }
+    .copy-btn.copied .icon-check { display: inline-block; }
+
     .after-scan {
       padding: 40px 0;
       border-top: 1px solid var(--border);
@@ -207,27 +240,33 @@
         <ul class="prereq-list">
           <li><span class="check">✓</span> <span><strong>Continuum</strong> installed on your iPhone or iPad</span></li>
           <li><span class="check">✓</span> <span>A <strong>Mac or Linux machine</strong> to run the installer (your laptop is fine)</span></li>
-          <li><span class="check">✓</span> <span><strong>gum</strong> — the interactive UI used by deploy.sh (<code>brew install gum</code>)</span></li>
-          <li><span class="check">✓</span> <span>For cloud deploys: the provider's CLI (<code>aws</code>, <code>doctl</code>, or <code>hcloud</code>) authenticated to your account</span></li>
+          <li><span class="check">✓</span> <span><strong>gum</strong> — the interactive UI used by deploy.sh (<a href="https://github.com/charmbracelet/gum#installation">install instructions</a>)</span></li>
+          <li><span class="check">✓</span> <span>For cloud deploys: the provider's CLI (<code>aws</code> for Lightsail or EC2, <code>doctl</code> for DigitalOcean, <code>hcloud</code> for Hetzner) authenticated to your account</span></li>
         </ul>
-        <p class="subtitle">The installer itself only needs <code>bash</code> and <code>curl</code>, which both macOS and Linux already have.</p>
+        <p class="subtitle">The installer itself only needs <code>bash</code>, <code>curl</code>, and standard POSIX tools (<code>awk</code>, <code>mktemp</code>, <code>sha256sum</code> or <code>shasum</code>) — already present on macOS and any common Linux.</p>
       </section>
 
       <section class="paths">
         <h2>Install the server</h2>
-        <p>One command. The installer downloads <code>deploy.sh</code> from the latest signed release, verifies its checksum, then runs it. <code>deploy.sh</code> walks you through provider, region, and instance size interactively (powered by <a href="https://github.com/charmbracelet/gum">gum</a>).</p>
+        <p>One command. The installer downloads <code>deploy.sh</code> from the latest <a href="https://github.com/kalleeh/continuum-relay/releases/latest">continuum-relay release</a>, verifies its sha256 against the release's <code>checksums.txt</code>, then runs it. <code>deploy.sh</code> walks you through provider, region, and instance size interactively (powered by <a href="https://github.com/charmbracelet/gum">gum</a>).</p>
 
         <div class="path-card">
           <h3>🚀 One-line install</h3>
           <p class="subtitle">Run this on your laptop. It works for new cloud VMs (Lightsail / EC2 / DigitalOcean / Hetzner), an existing Linux VPS you can SSH into, or your local Mac/Linux machine. The installer asks which path to take.</p>
-          <pre>/bin/bash -c "$(curl -fsSL https://kalleeh.github.io/continuum/install.sh)"</pre>
+          <div class="copy-block">
+            <pre id="install-cmd-setup">/bin/bash -c "$(curl -fsSL https://kalleeh.github.io/continuum/install.sh)"</pre>
+            <button type="button" class="copy-btn" data-copy-target="install-cmd-setup" aria-label="Copy install command">
+              <svg class="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+          </div>
           <ol>
-            <li><span>The installer fetches the latest <code>deploy.sh</code> + <code>cloud-init.yaml</code> from <a href="https://github.com/kalleeh/continuum-relay/releases/latest">github.com/kalleeh/continuum-relay/releases/latest</a> and verifies their sha256.</span></li>
+            <li><span>The installer fetches <code>deploy.sh</code> + <code>cloud-init.yaml</code> from the latest release and checks their sha256 against <code>checksums.txt</code>.</span></li>
             <li><span><code>deploy.sh</code> asks you to pick a target (cloud provider, existing VPS, or local), then provisions everything. Wait ~3 minutes.</span></li>
             <li><span>A <strong>QR code</strong> appears in your terminal containing the WireGuard config + auth token for the first device.</span></li>
             <li><span>Open <strong>Continuum</strong> on your iPhone → tap <strong>Set Up My Server</strong> → point the camera at the terminal. Done.</span></li>
           </ol>
-          <p class="subtitle" style="margin-top:1em">Want to inspect before running? <a href="https://kalleeh.github.io/continuum/install.sh">Read install.sh</a> (≈100 lines) or download <a href="https://github.com/kalleeh/continuum-relay/releases/latest/download/deploy.sh"><code>deploy.sh</code></a> directly from the release.</p>
+          <p class="subtitle" style="margin-top:1em">Want to inspect before running? <a href="https://kalleeh.github.io/continuum/install.sh">Read install.sh</a> or download <a href="https://github.com/kalleeh/continuum-relay/releases/latest/download/deploy.sh"><code>deploy.sh</code></a> directly from the release.</p>
         </div>
       </section>
 
@@ -264,6 +303,39 @@
 
     </div>
   </main>
+
+  <script>
+    (function() {
+      document.querySelectorAll('.copy-btn[data-copy-target]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var target = document.getElementById(btn.getAttribute('data-copy-target'));
+          if (!target) return;
+          var text = target.textContent;
+          var done = function() {
+            btn.classList.add('copied');
+            btn.setAttribute('aria-label', 'Copied');
+            setTimeout(function() {
+              btn.classList.remove('copied');
+              btn.setAttribute('aria-label', 'Copy install command');
+            }, 1600);
+          };
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(done, function() {});
+          } else {
+            var ta = document.createElement('textarea');
+            ta.value = text;
+            ta.setAttribute('readonly', '');
+            ta.style.position = 'absolute';
+            ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); done(); } catch (e) {}
+            document.body.removeChild(ta);
+          }
+        });
+      });
+    })();
+  </script>
 
   <footer>
     <div class="container">
